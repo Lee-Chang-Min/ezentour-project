@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.couponMapper">
+
+
+<select id="cpUseSelect" parameterType="string" resultType="Model.CouponDTO">
+	select c.CP_NO cpNo, MEM_ID memId, CP_DISCOUNT cpDiscount,PROD_NO prodNo   
+	from coupon c, membercoupon mc
+	where mem_id = #{memId} and cp_use = 'N'
+</select>
+
+<select id="cpMemSelect" resultType="Model.CouponDTO" parameterType="Model.CouponDTO">
+	select c.CP_NO cpNo, CP_DISCOUNT cpDiscount, PROD_NO prodNo,mem_id memId
+	from coupon c , membercoupon mc
+	where c.CP_NO= mc.CP_NO and PROD_NO = #{prodNo} and mem_id =#{memId}
+</select>
+
+<update id="cpMemMod" parameterType="string">
+	update membercoupon
+	set cp_use = 'Y'
+	where cp_no = #{cpNo}
+</update>
+
+<select id="cpDetail" parameterType="Model.CouponDTO" resultType="Model.CouponDTO">
+	select c.CP_NO cpNo, CP_DISCOUNT cpDiscount, PROD_NO prodNo,mem_id memId
+	from coupon c , membercoupon mc
+	where c.CP_NO= mc.CP_NO and PROD_NO = #{prodNo} and mem_id =#{memId}
+</select>
+
+<insert id="cpMemberInsert" parameterType="Model.CouponDTO">
+	insert into membercoupon 
+		(cp_no,mem_id,cp_use)
+	values(#{cpNo},#{memId},'N')
+</insert>
+
+<select id="cpSelect" parameterType="string" resultType="Model.CouponDTO">
+	select cp_no cpNo, cp_discount cpDiscount, prod_No prodNo
+	from coupon
+	where prod_No = #{prodNo}
+</select>
+
+</mapper>

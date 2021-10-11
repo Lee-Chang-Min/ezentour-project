@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.orderMapper">
+
+<insert id ="orderadd" parameterType="Model.OrderTravelDTO">
+	insert into order_travel
+		(MEM_ID,PROD_NO,ORDER_DATE,ORDER_NO,ORDER_COUNT,HOTEL_MEAL_PAX,HOTEL_BED,ORDER_TOTAL_PRICE)
+	values 
+		(#{memId},#{prodNo},sysdate,#{orderNo},#{orderCount}
+		,#{hotelMealPax},#{hotelBed},#{orderTotalPrice})
+</insert>
+
+<select id="hotelNo" parameterType="string"  resultType="Model.ProductHotelDTO">
+	SELECT  p.hotel_no hotelNo  ,h.hotel_no ,HOTEL_MEAL_PRICE hotelMealPrice
+ 		,HOTEL_BED_PRICE hotelBedPrice
+ 	FROM product p , hotel h
+ 	WHERE p.hotel_no = h.hotel_no
+ 	and p.prod_no= #{prodNo}
+</select>
+
+<select id="orderNo" resultType="string">
+	select nvl(max(ORDER_NO),0) + 1 from order_travel
+</select>
+
+<select id="orderDetail" parameterType="string" resultType="Model.OrderTravelDTO">
+	select ORDER_NO orderNo,ORDER_TOTAL_PRICE orderTotalPrice,PROD_NO prodNo,ORDER_COUNT orderCount
+		from order_travel
+	where order_no = #{orderNo}
+</select>
+
+<delete id="orderDel" parameterType="string">
+	delete from order_travel
+	where order_no = #{orderNo}
+</delete>
+
+<select id="paymentNo" resultType="string">
+	select nvl(max(PAYMENT_NO),0) + 1 from payment
+</select>
+
+<insert id ="paymentadd" parameterType="Model.PaymentDTO">
+	insert into payment
+		(PAYMENT_NO,ORDER_NO,PAYMENT_APPR_DATE ,CP_NO,TOTAL_PRICE)	
+	values 
+		(#{paymentNo},#{orderNo},sysdate,#{cpNo},#{totalPrice}
+	)
+</insert>
+<!-- 
+<resultMap type="Model.ProductHotelDTO" id="baseResult1">
+	<association property="productDTO" javaType="Model.ProductDTO">
+		<id column="PROD_NO" jdbcType="BIGINT" property="prodNo"/>
+		<result column="PROD_NAME" jdbcType="VARCHAR" property="prodName" />
+		<result column="PROD_PRICE" jdbcType="BIGINT" property="prodPrice" />
+		<result column="PROD_DETAIL" jdbcType="VARCHAR" property="prodDetail" />
+		<result column="MAX_PER" jdbcType="BIGINT" property="maxPer" />
+		<result column="PROD_LOCATION" jdbcType="VARCHAR" property="prodLocation" />
+		<result column="PROD_THEME" jdbcType="VARCHAR" property="prodTheme" />
+		<result column="PROD_S_DATE" jdbcType="DATE" property="prodSDate" />
+		<result column="PROD_E_DATE" jdbcType="DATE" property="prodEDate" />
+		<result column="PROD_IMAGE" jdbcType="VARCHAR" property="prodImage" />
+		<result column="HOTEL_NO" jdbcType="BIGINT" property="hotelNo" />	
+	</association>
+	<association property="hotelDTO" javaType="Model.HotelDTO">
+		<id column="HOTEL_NO" jdbcType="BIGINT" property="hotelNo"/>
+		<result column="HOTEL_NAME" jdbcType="VARCHAR" property="hotelName" />
+		<result column="HOTEL_ADDR" jdbcType="VARCHAR" property="hotelAddr" />
+		<result column="HOTEL_PH" jdbcType="VARCHAR" property="hotelPh" />
+		<result column="HOTEL_ROOM_TYPE" jdbcType="BIGINT" property="hotelRoomType" />
+		<result column="HOTEL_PRICE" jdbcType="BIGINT" property="hotelPrice" />
+		<result column="HOTEL_MEAL_PRICE" jdbcType="BIGINT" property="hotelMealPrice" />
+		<result column="HOTEL_BED_PRICE" jdbcType="BIGINT" property="hotelBedPrice" />
+		<result column="HOTEL_CONTENT" jdbcType="VARCHAR" property="hotelContent" />
+		<result column="HOTEL_IMAGE" jdbcType="VARCHAR" property="hotelImage" />
+			
+	</association>
+</resultMap> -->
+
+</mapper>

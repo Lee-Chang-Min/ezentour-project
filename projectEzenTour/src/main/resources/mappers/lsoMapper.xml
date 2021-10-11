@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.lsoMapper">
+
+
+
+
+<!-- event 리스트 불러오기 -->
+<select id="eventList" resultType="Model.NoticeDTO">
+	select NOTICE_NO noticeNo, NOTICE_SUB noticeSub, NOTICE_CON noticeCon,NOTICE_DATE noticeDate,
+		  NOTICE_KIND noticeKind, EMP_ID  empId ,NOTICE_COUNT noticeCount
+	from NOTICE
+	where notice_kind= 'event'
+	order by NOTICE_NO 
+</select>
+
+<!-- notice 리스트 불러오기 -->
+<select id="noticeList" resultType="Model.NoticeDTO">
+	select NOTICE_NO noticeNo, NOTICE_SUB noticeSub, NOTICE_CON noticeCon,NOTICE_DATE noticeDate,
+		  NOTICE_KIND noticeKind, EMP_ID  empId ,NOTICE_COUNT noticeCount
+	from NOTICE
+	where notice_kind= 'notice'
+	order by NOTICE_NO 
+</select>
+
+<!-- 페이징 notice 카운트 -->
+<select id="noticeCount" resultType="java.lang.Integer">
+	select count(*) from notice 
+	where notice_kind= 'notice'
+</select>
+
+<!-- 페이징 event 카운트 -->
+<select id="eventCount" resultType="java.lang.Integer">
+	select count(*) from notice 
+	where notice_kind= 'event'
+</select>
+
+<!--  공지번호 -->
+<select id="noticeNo" resultType="string">
+  select nvl(max(NOTICE_NO),0) + 1 from notice
+</select>
+
+ <!--  공지 등록 --> 
+<insert id="noticeWrite" parameterType="Model.NoticeDTO">
+	insert into notice(NOTICE_NO, NOTICE_SUB,NOTICE_CON,
+		NOTICE_DATE, NOTICE_KIND, NOTICE_COUNT,
+		EMP_ID)
+	values(#{noticeNo},#{noticeSub},
+		#{noticeCon},sysdate,#{noticeKind}, 0,#{empId})
+</insert>
+
+<!-- 카운트 -->
+	<update id="noticeReadUpdate" parameterType="string">
+		update notice 
+		set notice_count = notice_count +1
+		where notice_no = #{noticeNo}
+	</update>
+	
+<!-- 디테일 -->	
+	<select id="noticeDetail" parameterType="string" resultType="Model.NoticeDTO">
+	select NOTICE_NO noticeNo, NOTICE_SUB noticeSub, NOTICE_CON noticeCon,
+		NOTICE_DATE noticeDate, NOTICE_KIND noticeKind, 
+		NOTICE_COUNT noticeCount,	EMP_ID empId
+	from notice
+	where NOTICE_NO = #{noticeNo}
+	</select>	
+	
+<!-- 수정 -->
+<update id="noticeModify" parameterType="Model.NoticeDTO">
+	update notice
+	set notice_sub =#{noticeSub},notice_con=#{noticeCon}
+	where notice_no =#{noticeNo}
+</update>	
+
+<!-- 삭제 -->
+<delete id="noticeDel" parameterType="string">
+		delete from notice
+		where notice_no =#{noticeNo}
+</delete>
+</mapper>

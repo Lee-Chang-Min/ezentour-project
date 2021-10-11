@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.memberMapper">
+
+
+<!-- 회원가입 -->
+<insert id="memJoin" parameterType="Model.MemberDTO">
+	insert into member(MEM_ID, MEM_PW, MEM_NAME, MEM_BIRTH, MEM_GENDER, MEM_PH, MEM_EMAIL, MEM_EMAIL_AD, MEM_ADDR, MEM_ADDR_DETAIL,MEM_ADDR_POST)
+	values(#{memId},#{memPw},#{memName},#{memBirth},#{memGender},#{memPh},#{memEmail},#{memEmailAd},#{memAddr},#{memAddrDetail},#{memAddrPost})
+</insert>
+
+<!-- 회원리스트 -->
+<select id="memList" resultType="Model.MemberDTO" parameterType="Model.MemberDTO">
+	select rn, memId, memPw, memName, memPh, memBirth, memGender,
+        memEmail, memEmailAd, memAddr, memAddrDetail, memAddrPost
+	from(
+	select rownum rn, MEM_ID memId, MEM_PW memPw, MEM_NAME memName,
+	 	   MEM_PH memPh, MEM_BIRTH memBirth, MEM_GENDER memGender, 
+	 	   MEM_EMAIL memEmail, MEM_EMAIL_AD memEmailAd, MEM_ADDR memAddr,
+		   MEM_ADDR_DETAIL memAddrDetail, MEM_ADDR_POST memAddrPost
+	from member
+)
+	<trim prefix="where" prefixOverrides="AND | OR">
+		<if test="memId != null">
+			memId = #{memId}
+		</if>
+		<if test="startEndPageDTO != null">
+			and rn between #{startEndPageDTO.startRow} 
+			and  #{startEndPageDTO.endRow} 
+		</if>
+	</trim>
+</select>
+
+<!-- 회원카운트 -->
+<select id="getMemberCount" resultType="int">
+	select count(*) from member
+</select>
+
+
+<!-- 회원정보 -->
+<select id="memInfo" parameterType="string" resultType="Model.MemberDTO">
+	select MEM_ID memId, MEM_PW memPw, MEM_NAME memName,
+			MEM_BIRTH memBirth, MEM_GENDER memGender, 
+			MEM_PH memPh, MEM_EMAIL_AD memEmailAd, MEM_EMAIL memEmail,
+			MEM_ADDR memAddr, MEM_ADDR_DETAIL memAddrDetail, MEM_ADDR_POST memAddrPost
+	from member
+	where MEM_ID = #{memId}
+</select>
+
+
+<update id="memMod" parameterType="Model.MemberDTO">
+	update member
+	set mem_addr = #{memAddr}, MEM_ADDR_DETAIL = #{memAddrDetail} , MEM_ADDR_POST=#{memAddrPost}, 
+		MEM_EMAIL =#{memEmail} , MEM_EMAIL_AD =#{memEmailAd}, MEM_PH =#{memPh}
+	where mem_id = #{memId}
+</update>
+
+<delete id="memDrop" parameterType="string">
+	delete from member
+	where mem_id = #{memId}
+</delete>
+
+<!-- 회원 수정 -->
+<update id="memUpdate" parameterType="Model.MemberDTO">
+	update member
+	set MEM_ADDR_POST = #{memAddrPost}, mem_addr=#{memAddr} , 
+		MEM_ADDR_DETAIL = #{memAddrDetail}, MEM_PH = #{memPh} , 
+		MEM_EMAIL = #{memEmail} , MEM_EMAIL_AD = #{memEmailAd}
+	where mem_id = #{memId}
+</update>
+
+<!-- 아이디 찾기 -->
+<select id="idFind" parameterType="Model.MemberDTO" resultType="string">
+	select rpad(substr(mem_id,1, 4), length(mem_id), '*') 
+	from member
+	where MEM_PH = #{memPh} and MEM_EMAIL = #{memEmail} 
+	and mem_name = #{memName} 
+</select>
+
+<!-- 비밀번호 찾기 -->
+<update id="memPwUpdate" parameterType="Model.MemberDTO">
+	update member
+	set MEM_PW = #{memPw}
+	where mem_id = #{memId}
+</update>
+
+<!-- 아이디 중복 체크  -->
+<select id="idChk" resultType="string">
+	SELECT COUNT(*) FROM MEMBER
+	WHERE MEM_ID = #{memId}
+</select>
+
+</mapper>

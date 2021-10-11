@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.purchaseMapper">
+
+
+<insert id="listInsert" parameterType="string">
+	insert into purchase_list
+		(ORDER_NO,PROD_NO)
+	values(#{orderNo},(select prod_no from order_travel where ORDER_NO = #{orderNo}))
+</insert>
+
+<select id="purchaseList" parameterType="string" resultType="Model.PurchaseListDTO">
+	select  p.prod_no prodNo , prod_name prodName, PROD_IMAGE prodImage, 
+ 		order_date orderDate, pl.order_no orderNo, 
+ 		ORDER_TOTAL_PRICE orderTotalPrice , pa.PAYMENT_NO paymentNo,TOTAL_PRICE totalPrice , review_content reviewContent
+	from product p,  purchase_list pl, order_travel o, payment pa , review re
+	where p.prod_no(+) = pl.prod_no
+	and   re.prod_no(+) = p.prod_no  
+	and   o.order_no(+) = pl.order_no
+	and   o.order_no(+) = pa.order_no
+	and   re.PAYMENT_NO(+) = pa.PAYMENT_NO
+	and   o.mem_id = #{memId}
+    order by pl.order_no desc
+</select>
+
+</mapper>

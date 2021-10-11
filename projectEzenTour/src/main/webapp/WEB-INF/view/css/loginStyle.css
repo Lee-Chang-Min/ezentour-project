@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+.w70{width:70%; }
+.floatR{float:right;}
+
+
+.login-box {max-width: 436px;margin: auto; background-color: #fff;text-align: left;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;box-sizing: border-box}
+.login-box .h {padding-bottom: 20px;border-bottom: 3px solid #000;color: #000;font-size: 2.4rem;line-height: 1.3}
+.login-box .h [lang="en"],.login-box .h[lang="en"] {font-size: 2.0rem}
+.login-box .input-cell {margin: 10px 0}
+.login-box .save-id {display: block;margin-top: 10px;margin-bottom: 10px;color: #000;font-size: 1.4rem}
+.login-box .help-block {display: block;margin-top: 5px;font-size: 1.4rem}
+.login-box .form-error {color: #b94a48}
+
+.login-util {display: table;width: 100%;margin-top: 30px;font-size: 1rem;zoom: 1}
+.login-util:before {content: '';display: block}
+.login-util:after {content: '';display: table;clear: both}
+.login-util li {display: table-cell;position: relative;text-align: center}
+.login-util li:nth-of-type(2):before,.login-util li:nth-of-type(2):after {content: '';position: absolute;top: 0;bottom: 0;width: 1px;height: 12px;margin: auto;background-color: #d9d9d9}
+.login-util li:nth-of-type(2):before {left: -5px}
+.login-util li:nth-of-type(2):after {right: -5px}
+.login-util li:first-child {text-align: left}
+.login-util li:last-child {text-align: right}
+
+.input-cell input {min-width: 240px; width: 100%;}
+
+/* 로그인 버튼 */
+.login-btnWrap{position: relative;}
+.btn--wide {display: block;width: 100%; background: #000; border:0;height:35px; transition: all 0.3s;}
+.btn--wide:hover{background: #593494; transition: all 0.3s; }
+.btn--wide>span {color:#fff;}
+
+
+
+#login-sns{max-width: 436px; margin: 0 auto;}
+#login-sns>h2{font-size:22px; text-align:center; color:#000; margin:70px 0 15px 0;}
+/* 카카오로그인 */
+.login-kakao{width:183px; margin: 0 auto;}
+
+
+
+/*********************************************************/
+/* 회원가입 */
+.wrap {width:100%; }
+
+.login-box {}
+/* join-wrap */
+
+.join-wrap {max-width: 500px;margin: auto; background-color: #fff;text-align: left;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;box-sizing: border-box}
+.join-wrap .h{padding-bottom: 20px;border-bottom: 3px solid #000;color: #000;font-size: 2.4rem;line-height: 1.3}
+.join-wrap [type="checkbox"]{width: 20px; height:20px;}
+
+/* 필수항목, 선택항목 간격 */
+.join-wrap>ul>li{padding:10px 0;}
+.join-wrap>ul>li>p{font-size:16px; color:#00454c; padding-top:20px; font-weight:600;}
+.join-wrap>ul>li>span{display:inline-block; font-size:14px; line-height: 1.4; margin:10px 0;}
+.join-wrap .all_agree {border-bottom:1px solid #bbb; padding:30px 0;}
+
+/* 전체약관 동의합니다.*/
+.join-wrap .all_agree label {font-size:20px; color:#00454c; letter-spacing:-1.5px; margin-left:19px; line-height:16px; padding-bottom:4px;}
+
+/* 다음 버튼 */
+.join-wrap [type="submit"]{width:100%; background: #000; color:#fff; border:0; padding:7px; margin-top:50px; cursor: pointer;}
+
+
+/*********************************************************/
+/* 정보입력 */
+
+.wndqhr2{width: 70%; float: right;}
+.wndqhr [type="text"]{ float:left!important; width:60%;}
+.wndqhr .idChk{float:left; width:18%; margin-left: 5px; padding:3px; }
+
+
+/* 에러텍스트 */
+.join-wrap>ul>li>p.errorText{font-size:13px; color:#c66; margin-top:10px; padding-top:0;}
+.join-wrap>ul>li>p{display: inline-block; padding-top:15px; }
+.join-wrap [type="text"],.join-wrap [type="password"],.join-wrap [type="date"]{width:70%; float:right;}
+
+/* 주소 스타일 */
+.addrSt>p{display:block!important; padding-bottom:20px;}
+.addrSt>div{width:70%; float:left;}
+.addrSt .errorText{float:left; width:100%; margin-top:0; }
+
+.addrFind-wrap{ margin-top:47px!important; float:right; text-align:center;}
+.addrFind-wrap>a{padding:25px; color:#fff; border-radius: 10px; background:#00454c; }
+
+.addrSt>span,
+.addrSt [type="text"]{margin:0 0 5px 0; float:left; width: 100%;}
+
+/* 메일 */
+.join-wrap .mail-wrap p,
+.join-wrap .gender-wrap p{padding-top:0; }
+.join-wrap .mail-wrap p div,
+.join-wrap .gender-wrap p div{padding-top:2px; }
+
+
+/* 가입완료,가입안함 */
+.join-wrap .memJoinCom [type="submit"]{float:left; width:48%; margin-top:20px; transition: all 0.3s;}
+.join-wrap .memJoinCom [type="button"]{float:right; width:48%; background:#888; color:#fff; padding:7px; cursor:pointer; border:0;  margin-top:20px; transition: all 0.3s;}
+.join-wrap .memJoinCom [type="submit"]:hover,
+.join-wrap .memJoinCom [type="button"]:hover{background:#593494; transition: all 0.3s;}

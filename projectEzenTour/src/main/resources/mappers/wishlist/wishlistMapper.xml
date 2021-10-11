@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.wishlistMapper">
+
+	<insert id="wishAdd" parameterType="Model.WishDTO" useGeneratedKeys="false">
+	<![CDATA[
+	MERGE into wish w
+	using (select PROD_NO from product where PROD_NO = #{prodNo, jdbcType=INTEGER}) p
+	on (w.PROD_NO = p.PROD_NO and w.MEM_ID = #{memId,jdbcType=VARCHAR})
+	When MATCHED THEN
+	update set w.CK = 1111
+	delete where (w.PROD_NO = #{prodNo, jdbcType=INTEGER} and w.MEM_ID = #{memId,jdbcType=VARCHAR})
+	When not MATCHED THEN
+	insert (w.PROD_NO, w.MEM_ID) values(#{prodNo, jdbcType=INTEGER},#{memId,jdbcType=VARCHAR})
+	]]>
+</insert>
+
+	<delete id="deleteWish" parameterType="Model.WishDTO">
+		delete from wish where MEM_ID = '${memId}' and prod_no = ${prodNo}
+	</delete>
+	
+	<select id="getWishCount" parameterType="Model.WishDTO" resultType="int">
+		select count(*) from WISH
+		where PROD_NO = #{prodNo} and MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getWishList" parameterType="string" resultType="Model.ProductDTO">
+	<![CDATA[
+		select
+			PROD_NO prodNo, PROD_NAME prodName, PROD_PRICE prodPrice, 
+			PROD_DETAIL prodDetail, MAX_PER maxPer,
+			PROD_LOCATION prodLocation, PROD_THEME prodTheme,
+			PROD_S_DATE prodSDate, PROD_E_DATE prodEDate, 
+			HOTEL_NO hotelNo, PROD_IMAGE prodImage	
+		from product
+		where prod_no in ( select PROD_NO
+						  from wish
+						  where MEM_ID = #{memId})
+	]]>
+	</select>
+	
+	<select id="getWishListPaging" parameterType = "java.lang.String" resultType="java.lang.Integer">
+		select count(*)
+		from wish
+		where MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+</mapper>

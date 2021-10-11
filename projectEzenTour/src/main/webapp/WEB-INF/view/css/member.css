@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+table {
+	margin-top:30px;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+#wrap{max-width:960px; margin:0 auto;}
+	.memWrap {padding: 80px 0;}
+	.memWrap .h{padding-bottom: 20px;border-bottom: 3px solid #000;color: #000;font-size: 2.4rem;line-height: 1.3}
+	
+	.memList-wrap{padding:40px 0 80px 0;}
+	
+	/* 테이블 */
+	table thead tr {background:#00454c29;}
+	table td{}
+	table th, table td {padding:15px 10px;vertical-align: middle; font-size:17px;}
+	
+	/* 회원아이디 */ 
+	table tr td a{display: block; text-align: center;}
+	
+	/* 채팅 쪽 */
+	tbody tr td a.chatPop{padding: 5px; border:1px solid #ddd; border-radius: 10px; color:#fff; background:#00454c; transition: all 0.3s;}
+	tbody tr td a.chatPop:hover{background:#00454c29; color:#000; transition: all 0.3s; }
+	
+	
+	
+	/* 회원 마이페이지 */
+	.mem-wrap{padding:40px 0 80px 0;}
+	.mem-wrap .h{padding-bottom: 20px;border-bottom: 3px solid #000;color: #000;font-size: 2.4rem;line-height: 1.3}
+	.mem-wrap .h .text2{font-size:16px; vertical-align: bottom;}
+	
+	
+	.mypage-btn{padding:40px 0;}
+	.mypage-btn>span{margin-right:10px;}
+	.mypage-btn>span>a{display: inline-block; border-radius:30px; padding:20px; background: #00454c29; font-size:16px; transition: all 0.3s;}
+	.mypage-btn>span>a:hover{background: #000; color: #fff; transition: all 0.3s;}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			"
+>
+	<bean class="controller.employee.EmployeeController"/>
+	<bean class="service.employee.EmployeeNumService"/>
+	<bean class="repository.EmployeeRepository"/>
+	<bean class="service.employee.EmployeeJoinService"/>
+	<bean class="service.employee.EmployeeListService"/>
+	<bean class="service.employee.EmployeeInfoService"/>
+	<bean class="service.employee.EmployeeUpdateService"/>
+	<bean class="service.employee.EmployeeDeleteService"/>
+	<bean class="service.employee.EmployeeDetailService"/>
+	<bean class="service.employee.EmpMyInfoService"/>
+	<bean class="controller.employee.EmployeeMypageController"/>
+	
+</beans>

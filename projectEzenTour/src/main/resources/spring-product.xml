@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			"
+>
+
+	<bean class="controller.product.ProductController"/>
+	<bean class="controller.product.HotelController"/>
+	<bean class="controller.product.ProductWishController"/>
+
+	
+	<bean class="repository.ProdRepository"/>
+	
+	<bean class="service.product.ProductNumberService" />
+	<bean class="service.product.ProductWriteService" />
+	<bean class="service.product.ProductListService" />
+	<bean class="service.product.ProductLocationListService" />
+	<bean class="service.product.ProductDetailService" />
+	<bean class="service.product.ProductUpdateService" />
+	<bean class="service.product.ProductDeleteService" />
+	<bean class="service.product.HitsproductListService" />
+	
+	
+	<bean class="service.product.HotelNumberService" />
+	<bean class="service.product.HotelWriteService" />
+	<bean class="service.product.HotelListService" />
+	<bean class="service.product.HotelDetailService" />
+	<bean class="service.product.HotelUpdateService" />
+	<bean class="service.product.HotelDeleteService" />
+	<bean class="service.product.HotelRecommandDetailService" />
+	
+	<bean class="service.product.ReviewWriteService" />
+	<bean class="service.product.ReviewUpdateService" />
+	<bean class="service.product.ReviewListService" />
+	
+	<bean class="service.product.ProductBuyService" />
+	<bean class="service.product.ProductWishAddService" />
+	<bean class="service.product.ProductWishListService" />
+	<bean class="service.product.ProductWishRemoveService" />
+	<bean class="service.product.WishProdDeleteService" />
+	
+	
+	<bean class="service.product.ProdThemeListService" />
+	
+	
+	
+</beans>

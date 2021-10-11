@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.prodMapper">
+
+ <!-- <resultMap type="Model.ProductHotelDTO" id="PHMap">
+	<association property="productDTO" javaType="Model.ProductDTO">
+		<id column="PROD_NO" jdbcType="BIGINT" property="prodNo"/>
+		<result column="PROD_NAME" jdbcType="VARCHAR" property="prodName" />
+		<result column="prod_image" jdbcType="VARCHAR" property="prodImage" />
+	</association>
+	<association property="hotelDTO" javaType="Model.HotelDTO">
+		<id column="HOTEL_NO" jdbcType="BIGINT" property="hotelNo"/>
+		<result column="HOTEL_NAME" jdbcType="VARCHAR" property="hotelName" />
+		<result column="HOTEL_TYPE" jdbcType="VARCHAR" property="hotelType" />			
+		<result column="hotel_image" jdbcType="VARCHAR" property="hotelImage" />			
+	</association>
+</resultMap> --> 
+
+<!-- 프로드 카웉ㅌ, -->
+	<update id="prodReadUpdate" parameterType="string">
+		update product 
+		set prod_count = prod_count +1
+		where PROD_NO = #{prodNo}
+	</update>
+
+<!-- 메인 검색기능 -->
+<select id="searchadd" parameterType="string" resultType="Model.ProductDTO" >
+	select PROD_IMAGE prodImage, PROD_NAME prodName, prod_no prodNo from product
+	where PROD_NAME LIKE '%' || #{prodName} || '%' 
+</select>
+
+<!-- 여행지 추천  -->
+<select id="HRecommandDetail" parameterType="Model.ProductHotelDTO" resultType="Model.ProductHotelDTO">
+	select h.hotel_No hotelNo,HOTEL_NAME hotelName,prod_name prodName,prod_image prodImage,hotel_image hotelImage
+	from hotel h , product p 
+	where h.hotel_No = p.hotel_No(+) and hotel_type = #{hotelType} and prod_theme = #{prodTheme}
+</select> 
+			
+					
+<insert id="prodInsert" parameterType="Model.ProductDTO">
+	insert into product(PROD_NO, PROD_NAME, PROD_PRICE, PROD_DETAIL,
+	MAX_PER, PROD_LOCATION, PROD_THEME, PROD_S_DATE, PROD_E_DATE,
+	PROD_IMAGE, hotel_no)
+	values(#{prodNo}, #{prodName}, #{prodPrice}, #{prodDetail}, #{maxPer},
+	 #{prodLocation}, #{prodTheme}, #{prodSDate}, #{prodEDate}, #{prodImage},
+	 #{hotelNo}  
+	<!-- <if test = "prodImage != null">#{prodImage}</if>
+	<if test = "prodImage == null">null</if> -->
+	)
+</insert>
+
+<!-- 상품 최신순 출력 -->
+<select id="prodList" parameterType = "string" resultType="Model.ProductDTO" >
+select PROD_NO prodNo, PROD_NAME prodName, PROD_PRICE prodPrice, 
+			PROD_DETAIL prodDetail, MAX_PER maxPer,
+			PROD_LOCATION prodLocation, PROD_THEME prodTheme,
+			PROD_S_DATE prodSDate, PROD_E_DATE prodEDate, 
+			HOTEL_NO hotelNo, PROD_IMAGE prodImage			
+	from product order by prod_No desc
+
+</select>
+
+<!-- 조회수 리스트 부분  -->
+<select id="hitsList"  resultType="Model.ProductDTO" >
+select  PROD_NO prodNo, PROD_NAME prodName, PROD_PRICE prodPrice, 
+			PROD_DETAIL prodDetail, MAX_PER maxPer,
+			PROD_LOCATION prodLocation, PROD_THEME prodTheme,
+			PROD_S_DATE prodSDate, PROD_E_DATE prodEDate, 
+			HOTEL_NO hotelNo, PROD_IMAGE prodImage,
+			PROD_COUNT prodCount	
+	from product order by prod_count desc 
+
+</select>
+
+<select id="productLocationList" parameterType = "string" resultType="Model.ProductDTO" >
+	select PROD_NO prodNo, PROD_NAME prodName, PROD_PRICE prodPrice, 
+			PROD_DETAIL prodDetail, MAX_PER maxPer,
+			PROD_LOCATION prodLocation, PROD_THEME prodTheme,
+			PROD_S_DATE prodSDate, PROD_E_DATE prodEDate, 
+			HOTEL_NO hotelNo, PROD_IMAGE prodImage			
+	from product
+	<if test= "value != null and value != ''"> where PROD_LOCATION = #{value} order by prod_No desc</if>
+	
+</select>
+
+<select id="productThemeList" parameterType = "string" resultType="Model.ProductDTO" >
+	select PROD_NO prodNo, PROD_NAME prodName, PROD_PRICE prodPrice, 
+			PROD_DETAIL prodDetail, MAX_PER maxPer,
+			PROD_LOCATION prodLocation, PROD_THEME prodTheme,
+			PROD_S_DATE prodSDate, PROD_E_DATE prodEDate, 
+			HOTEL_NO hotelNo, PROD_IMAGE prodImage			
+	from product
+	<if test= "value != null and value != ''"> where PROD_THEME = #{value} order by prod_No desc</if>
+</select>
+
+<!-- <select id="" parameterType="string" resultMap="baseResult1">
+	select h.HOTEL_NO, PROD_NO, PROD_NAME, PROD_PRICE, PROD_DETAIL,
+			MAX_PER, PROD_LOCATION, PROD_THEME, PROD_S_DATE, PROD_E_DATE,
+			PROD_IMAGE,  HOTEL_NAME, HOTEL_ADDR, 
+			HOTEL_PH, HOTEL_ROOM_TYPE, HOTEL_PRICE, HOTEL_MEAL_PRICE, 
+			HOTEL_BED_PRICE, HOTEL_CONTENT, HOTEL_IMAGE
+			from hotel h , product p
+			where h.HOTEL_NO = p.HOTEL_NO(+) and h.HOTEL_NO = #{hotelNo} 
+</select> -->
+
+
+<!-- <resultMap type="Model.ProductDTO" id="baseResult1">
+	<id column="PROD_NO" jdbcType="BIGINT" property="prodNo"/>
+		<result column="PROD_NAME" jdbcType="VARCHAR" property="prodName" />
+		<result column="PROD_PRICE" jdbcType="BIGINT" property="prodPrice" />
+		<result column="PROD_DETAIL" jdbcType="VARCHAR" property="prodDetail" />
+		<result column="MAX_PER" jdbcType="BIGINT" property="maxPer" />
+		<result column="PROD_LOCATION" jdbcType="VARCHAR" property="prodLocation" />
+		<result column="PROD_THEME" jdbcType="VARCHAR" property="prodTheme" />
+		<result column="PROD_S_DATE" jdbcType="DATE" property="prodSDate" />
+		<result column="PROD_E_DATE" jdbcType="DATE" property="prodEDate" />
+		<result column="PROD_IMAGE" jdbcType="VARCHAR" property="prodImage" />
+		<result column="HOTEL_NO" jdbcType="BIGINT" property="hotelNo" />	
+</resultMap> -->
+
+<select id="prodDetail" parameterType="string"  resultType="Model.ProductDTO">
+	select PROD_NO prodNo , PROD_NAME prodName, PROD_PRICE prodPrice, PROD_DETAIL prodDetail,
+		MAX_PER maxPer, PROD_LOCATION prodLocation, PROD_THEME prodTheme, PROD_S_DATE prodSDate, PROD_E_DATE prodEDate,
+		PROD_IMAGE prodImage, HOTEL_NO hotelNo
+	from PRODUCT 
+	where prod_no = #{prodNo} 
+</select> 
+
+<update id="prodUpdate" parameterType="Model.ProductDTO">
+	update product
+	set PROD_PRICE = #{prodPrice}, PROD_NAME = #{prodName}, PROD_DETAIL = #{prodDetail},
+			MAX_PER = #{maxPer}, PROD_LOCATION = #{prodLocation}, 
+			PROD_THEME = #{prodTheme}, PROD_S_DATE = #{prodSDate},
+			PROD_E_DATE = #{prodEDate},PROD_IMAGE = #{prodImage},
+			HOTEL_NO =#{hotelNo}
+	where PROD_NO = #{prodNo}
+</update>
+
+<delete id="prodDel" parameterType="string">
+   delete from product
+   where PROD_NO = #{prodNo}
+</delete>
+	
+
+
+<select id="prodNo" resultType="string">
+	select nvl(max(prod_NO),0) + 1 from product
+</select>
+
+<select id = "productCount" resultType="int" >
+	select count(*) from product
+</select>
+
+<select id = "seoulcount" resultType="int" >
+	select count(*) from product where PROD_LOCATION = '서울'
+</select>
+
+<select id = "gyeCount" resultType="int" >
+	select count(*) from product where PROD_LOCATION = '경기도'
+</select>
+
+<select id = "jejuCount" resultType="int" >
+	select count(*) from product where PROD_LOCATION = '제주도'
+</select>
+
+<select id = "gsdCount" resultType="int" >
+	select count(*) from product where PROD_LOCATION = '경상도'
+</select>
+
+<select id = "activeCount" resultType="int" >
+	select count(*) from product where PROD_THEME = 'activity'
+</select>
+
+<select id = "heelingCount" resultType="int" >
+	select count(*) from product where PROD_THEME = 'heeling'
+</select>
+
+<select id = "foodCount" resultType="int" >
+	select count(*) from product where PROD_THEME = 'food'
+</select>
+
+<select id = "histroyCount" resultType="int" >
+	select count(*) from product where PROD_THEME = 'histroy'
+</select>
+
+
+
+
+<!-- 호텔 관련  !!!!!!!!!!!! -->
+<select id="hotelList" parameterType = "java.lang.Integer" resultType="Model.HotelDTO">
+select 	HOTEL_NO hotelNo, HOTEL_NAME hotelName, HOTEL_ADDR hotelAddr, HOTEL_PH hotelPh,
+ 		HOTEL_PRICE hotelPrice
+		from Hotel order by HOTEL_NO desc
+</select>
+
+<select id="hotelCount" resultType="java.lang.Integer">
+	select count(*) from hotel 
+</select>
+
+<insert id="hotelInsert" parameterType="Model.HotelDTO">
+	insert into hotel
+		(HOTEL_NO, HOTEL_NAME, HOTEL_ADDR, 
+		HOTEL_PH, HOTEL_ROOM_TYPE, HOTEL_PRICE, HOTEL_MEAL_PRICE, 
+		HOTEL_BED_PRICE, HOTEL_CONTENT, HOTEL_IMAGE, hotel_type )
+	values (#{hotelNo}, #{hotelName}, #{hotelAddr}, #{hotelPh},
+	 #{hotelRoomType}, #{hotelPrice}, #{hotelMealPrice},
+	  #{hotelBedPrice}, #{hotelContent}, #{hotelImage},#{hotelType}
+	)
+</insert>
+
+<resultMap type="Model.HotelDTO" id="baseResult">
+	<id column="HOTEL_NO" jdbcType="BIGINT" property="hotelNo"/>
+		<result column="HOTEL_NAME" jdbcType="VARCHAR" property="hotelName" />
+		<result column="HOTEL_ADDR" jdbcType="VARCHAR" property="hotelAddr" />
+		<result column="HOTEL_PH" jdbcType="VARCHAR" property="hotelPh" />
+		<result column="HOTEL_ROOM_TYPE" jdbcType="BIGINT" property="hotelRoomType" />
+		<result column="HOTEL_PRICE" jdbcType="BIGINT" property="hotelPrice" />
+		<result column="HOTEL_MEAL_PRICE" jdbcType="BIGINT" property="hotelMealPrice" />
+		<result column="HOTEL_BED_PRICE" jdbcType="BIGINT" property="hotelBedPrice" />
+		<result column="HOTEL_CONTENT" jdbcType="VARCHAR" property="hotelContent" />
+		<result column="HOTEL_IMAGE" jdbcType="VARCHAR" property="hotelImage" />	
+</resultMap>
+
+<select id="hotelDetail" parameterType="java.lang.Integer" resultMap="baseResult">
+	select HOTEL_NO , HOTEL_NAME, HOTEL_ADDR, HOTEL_PH, 
+			HOTEL_ROOM_TYPE, HOTEL_PRICE,
+			HOTEL_MEAL_PRICE, HOTEL_BED_PRICE,
+			HOTEL_CONTENT, HOTEL_IMAGE from HOTEL
+	where HOTEL_NO = #{hotelNo}
+</select>
+
+<select id="hotelViewDetail" parameterType="Model.ProductDTO" resultMap="baseResult">
+	select HOTEL_NO , HOTEL_NAME, HOTEL_ADDR, HOTEL_PH, 
+			HOTEL_ROOM_TYPE, HOTEL_PRICE,
+			HOTEL_MEAL_PRICE, HOTEL_BED_PRICE,
+			HOTEL_CONTENT, HOTEL_IMAGE from HOTEL
+	where HOTEL_NO = (select hotel_no hotelNo from product where prod_No = #{prodNo})
+</select>
+
+<update id="hotelUpdate" parameterType="Model.HotelDTO">
+	update hotel
+	set HOTEL_NAME = #{hotelName}, HOTEL_ADDR = #{hotelAddr}, HOTEL_PH = #{hotelPh}, 
+		HOTEL_ROOM_TYPE = #{hotelRoomType}, HOTEL_PRICE = #{hotelPrice}, 
+		HOTEL_MEAL_PRICE = #{hotelMealPrice}, HOTEL_BED_PRICE = #{hotelBedPrice}, 
+		HOTEL_CONTENT = #{hotelContent}, HOTEL_IMAGE = #{hotelImage}
+		where HOTEL_NO = #{hotelNo}
+</update>
+
+<delete id="hotelDel" parameterType="java.lang.Integer">
+	delete from hotel
+	where HOTEL_NO = #{hotelNo}
+</delete>
+
+<select id="hotelNo" resultType="java.lang.Integer">
+	select hotel_seq.nextval from dual
+</select>
+	<!-- <sql id="hotelNo">
+		select nvl(max(HOTEL_NO),0) + 1 from hotel
+	</sql>
+ -->
+
+
+<!--  ================================리뷰 관련 ==================================== -->
+<select id="reviewList" parameterType="string" resultType="Model.ReviewDTO">
+	select PROD_NO prodNo, REVIEW_DATE reviewDate, REVIEW_CONTENT reviewContent, REVIEW_STAR reviewStar, MEM_ID memId
+	from review 
+	<if test= "value != null and value != ''"> WHERE PROD_NO = #{value}</if>
+	
+</select> 
+
+<insert id="reviewWrite" parameterType="Model.ReviewDTO">
+	insert into review (REVIEW_STAR, PAYMENT_NO,PROD_NO,REVIEW_DATE,REVIEW_CONTENT,MEM_ID)
+	values(#{reviewStar},#{paymentNo},#{prodNo},sysdate,#{reviewContent},#{memId})
+</insert>
+
+<select id="reviewInfo" parameterType="Model.ReviewDTO" resultType="Model.ReviewDTO">
+	select PAYMENT_NO paymentNo, PROD_NO prodNo, REVIEW_STAR reviewStar, 
+			REVIEW_DATE reviewDate, REVIEW_CONTENT reviewContent, MEM_ID memId
+	from review
+	where PAYMENT_NO = #{paymentNo} and PROD_NO = #{prodNo}
+</select>
+
+<update id="reviewUpdate" parameterType="Model.ReviewDTO">
+	update review
+	set review_content = #{reviewContent}, review_star = #{reviewStar}
+	where PAYMENT_NO = #{paymentNo} and PROD_NO = #{prodNo}
+</update>
+
+<select id="reviewAvg" parameterType="string" resultType="double">
+	
+	SELECT ROUND(AVG(REVIEW_STAR),1) 
+	FROM REVIEW 
+	WHERE PROD_NO = #{prodNo} GROUP BY PROD_NO 
+</select>
+
+
+</mapper>

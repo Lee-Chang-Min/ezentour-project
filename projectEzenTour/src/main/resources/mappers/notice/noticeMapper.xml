@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.noticeMapper">
+
+<!-- ==============QNA글 갯수 카운트============================= -->
+	<select id="getQnaCnt" parameterType="int" resultType="int">
+			select count(*)
+			from qna
+			where qna_no = #{qnaNo}
+	</select>
+	
+<!-- ==============QNA글 저장============================= -->	
+	<insert id="addQnaInfo" parameterType="Model.QnaDTO">
+		<selectKey keyProperty="qnaNo" order="BEFORE" resultType="java.lang.Integer">
+				select qna_seq.nextval from dual
+		</selectKey>
+			insert into QNA(QNA_NO, MEM_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE)
+			values (#{qnaNo}, #{userId}, #{qnaTitle}, #{qnaContent}, sysdate)
+	</insert>
+	
+<!-- ==============QNA글 조회============================= -->	
+	<select id="getQnaInfo" parameterType="int" resultType="Model.QnaDTO">
+			select
+			qna_date as qnaDate,
+			qna_title as qnaTitle, qna_content as qnaContent,
+			qna_no as qnaNo, qna_reply as qnaReply
+			from qna
+			where qna_no = #{qnaNo} 
+	</select>
+<!-- ==============QNA글 조회리스트============================= -->		
+	<select id="getQnaList" resultType="Model.QnaDTO">
+			select
+			qna_date qnaDate,
+			qna_title qnaTitle, qna_content qnaContent,
+			qna_no qnaNo, qna_reply as qnaReply
+			from qna
+			order by qna_no desc
+	</select>
+<!-- ==============QNA글 수정============================= -->	
+	<update id="modifyQnaInfo" parameterType="Model.QnaDTO">
+			update qna
+			set qna_title = #{qnaTitle},
+			qna_content = #{qnaContent},
+			qna_reply = #{qnaReply,jdbcType=VARCHAR}
+			where qna_no = #{qnaNo}
+	</update>
+	
+<!-- ==============QNA글 삭제============================= -->	
+	<delete id="deleteQnaInfo" parameterType="int">
+			delete
+			from qna
+			where qna_no = #{qnaNo}
+	</delete>
+<!-- ==============끝============================= -->
+</mapper>

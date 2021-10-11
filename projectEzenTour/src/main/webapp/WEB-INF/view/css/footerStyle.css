@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+#footer{z-index:3; position:relative; width:100%; height:auto; margin:0 auto; padding-bottom:80px; background:#333;}
+	.footer-wrap{width:100%;}
+		.footer-company-wrap{width:100%; max-width:1200px;  margin:0 auto; text-align:left; padding: 25px 0;}
+		.footer-company-wrap>span{font-size:14px; padding:0 15px 0 0;}
+		.footer-company-wrap>span>a{color:#fff;}
+	.underLine{width:100%; height:1px; background:#888;}
+
+	.footer-address-wrap{width:100%;} 
+	.footer-address-wrap>ul{position:relative; width:100%; max-width:1200px;  margin:0 auto; padding-top:30px;}
+		.footer-bottom-left{width:60%; float:left}
+		.footer-bottom-left>div{font-size:12px; line-height:1.6; text-align:left; color:#ddd;}
+		.footer-bottom-left>div>address {color:#ddd;}
+		.footer-bottom-left>div>span{display:block; line-height:4; color:#888;}
+		.footer-bottom-left>div>span>a{color:#ddd;}
+		.footer-bottom-left>div>p{float:left; margin-right:9px;}
+		.footer-bottom-left>div>p>a{color:#ddd;}
+		
+		.footer-bottom-right{width:26%; float:right;}
+		.footer-bottom-right>ul{width:100%;}
+		.footer-bottom-right>ul>li{text-align:left; color:#fff; line-height: 1.2;}
+		.footer-bottom-right>ul>li:nth-child(1){font-size:19px;}
+		.footer-bottom-right>ul>li:nth-child(2){font-size:32px; font-weight:600; margin:10px 0;}
+		.footer-bottom-right>ul>li:nth-child(3){font-size:14px;}
+		.footer-bottom-right>ul>li>p{color:#fff;}
+		
+/* 하단 직원등록 */
+.empBtn{float:right; border:0; }
+.empBtn>a{font-weight:600; color:#fff;}

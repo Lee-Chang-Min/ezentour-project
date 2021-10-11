@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+/* container */
+.container {background-color:#f5f6f8;}
+.container > .inner {width:1200px; margin:0 auto;}
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.couponRegistMapper">
+
+<select id="cpNo" resultType="string">
+	select nvl(max(CP_NO),0) + 1 from COUPON
+</select>
+
+<insert id="couponIn" parameterType="Model.CouponDTO">
+	insert into COUPON
+	(CP_NO,CP_DISCOUNT,PROD_NO)
+	values(#{cpNo},#{cpDiscount},#{prodNo})
+
+
+</insert>
+
+</mapper>
